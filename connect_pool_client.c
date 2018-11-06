@@ -1172,7 +1172,7 @@ PHP_METHOD(redis_connect_pool, select)
 
     cli = cpRedis_conn_pool_server(getThis(), source_char, 0);
     if(cli==NULL){
-        zend_throw_exception(NULL, "I AM DEFAULT EXCEPTION", 10087);
+        zend_throw_exception(NULL, "connect to pool_server error", 10087);
     }
     CP_MAKE_STD_ZVAL(pass_data);
     array_init(pass_data);
