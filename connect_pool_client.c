@@ -133,7 +133,7 @@ static CPINLINE zval * cpConnect_pool_server(zval *data_source, int async)
         CP_ZEND_REGISTER_RESOURCE(zres, cli, le_cli_connect_pool);
     }
     else
-    {//create long connect to pool_server
+    {//create long connect to pool_server，第一次建立tcp连接
         if (connect_pool_perisent(zres, data_source) == NULL)
         {// error
 #if PHP_MAJOR_VERSION < 7
@@ -1171,7 +1171,9 @@ PHP_METHOD(redis_connect_pool, select)
     zend_update_property_string(redis_connect_pool_class_entry_ptr, object, ZEND_STRL("data_source"), source_char TSRMLS_CC); //确定数据源
 
     cli = cpRedis_conn_pool_server(getThis(), source_char, 0);
-
+    if(cli==NULL){
+        zend_throw_exception(NULL, "I AM DEFAULT EXCEPTION", 10087);
+    }
     CP_MAKE_STD_ZVAL(pass_data);
     array_init(pass_data);
     cp_add_assoc_string(pass_data, "type", "redis", 1);
