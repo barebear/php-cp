@@ -201,11 +201,15 @@ int cpServer_init(zval *conf, char *ini_file)
             {
                 convert_to_long(v);
                 CPGS->G[group_num].worker_num = CPGS->G[group_num].worker_min = Z_LVAL_P(v);
+            }else{
+                CPGS->G[group_num].worker_num = CPGS->G[group_num].worker_min = 2;
             }
             if (cp_zend_hash_find(Z_ARRVAL_P(config), ZEND_STRS("pool_max"), (void **)&v) == SUCCESS)
             {
                 convert_to_long(v);
                 CPGS->G[group_num].worker_max = Z_LVAL_P(v);
+            }else{
+                CPGS->G[group_num].worker_max = 10;
             }
             CPGS->group_num++;
             group_num++;
@@ -287,6 +291,7 @@ int cpServer_start(int sock)
     {
         //创建manager进程
     case 0:
+        //debug 1: worker_min还没有初始化
         for (g = 0; g < CPGS->group_num; g++)
         {
             for (w = 0; w < CPGS->G[g].worker_min; w++)
