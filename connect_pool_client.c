@@ -1131,6 +1131,7 @@ PHP_METHOD(redis_connect_pool, auth)
 
 }
 
+
 PHP_METHOD(redis_connect_pool, select)
 {
     zval *ip, *port, *z_args, *pass_data, *object, *auth;
